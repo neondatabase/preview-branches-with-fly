@@ -54,13 +54,3 @@ The workflow has a single job called `production-deploy` and it consists of the 
 `.github/workflows/delete-neon-branch.yml` automates the cleanup of branches in Neon. It is activated on a `pull_request` event with the action `closed`. This will ensure that Neon branches are deleted when a pull request is closed/merged.
 
 The workflow uses [`neondatabase/delete-branch-action@v3.1.3`](https://github.com/neondatabase/delete-branch-action/tree/v3.1.3/) action which uses the `NEON_API_KEY` and `NEON_PROJECT_ID` secrets that are set in the repository.
-
-
-
-
-
-
-
-
-
-
