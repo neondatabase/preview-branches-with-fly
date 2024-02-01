@@ -1,6 +1,8 @@
 name: Preview Deployment
-on: [pull_request]
-
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+    
 env:
   NEON_DATABASE_USERNAME: ${{ secrets.NEON_DATABASE_USERNAME }} # change this to your database username
   GH_TOKEN: ${{ secrets.GH_TOKEN }} # Required for commenting on pull requests for private repos
