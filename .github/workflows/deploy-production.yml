@@ -10,7 +10,7 @@ env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
 jobs:
-  production-deploy:
+  deploy-production:
     runs-on: ubuntu-latest
 
     steps:
