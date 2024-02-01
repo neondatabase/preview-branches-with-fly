@@ -1,13 +1,12 @@
-# fly.toml app configuration file generated for preview-branches-with-fly on 2024-02-01T11:54:56+01:00
+# fly.toml app configuration file generated for node-drizzle-neon on 2024-01-31T11:04:51+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'preview-branches-with-fly'
+app = 'node-drizzle-neon'
 primary_region = 'cdg'
 
 [build]
-
 [http_service]
   internal_port = 3000
   force_https = true
@@ -15,7 +14,6 @@ primary_region = 'cdg'
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
-
 [[vm]]
   cpu_kind = 'shared'
   cpus = 1
