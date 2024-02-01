@@ -8,6 +8,13 @@
       "when": 1706770281659,
       "tag": "0000_goofy_gabe_jones",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1706775090951,
+      "tag": "0001_high_victor_mancha",
+      "breakpoints": true
     }
   ]
 }

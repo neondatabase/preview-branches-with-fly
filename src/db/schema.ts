@@ -8,4 +8,5 @@ export const users = pgTable("user", {
   role: text("role").$type<"admin" | "customer">(),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
+  title: text("title"),
 });
