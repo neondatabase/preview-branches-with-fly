@@ -30,7 +30,7 @@ The workflow has a single job called `deploy-preview` and it consists of the fol
 3. Configures Node.js version with caching for PNPM via actions/setup-node@v4.
 4. Installs dependencies using `pnpm install`.
 5. Retrieves the branch name using [`tj-actions/branch-names@v8`](https://github.com/marketplace/actions/branch-names).
-6. Creates a Neon database branch for the pull request with [`neondatabase/create-branch-action@v4`](https://github.com/marketplace/actions/neon-database-create-branch-action).
+6. Creates a Neon database branch for the pull request with [`neondatabase/create-branch-action@v4`](https://github.com/marketplace/actions/neon-database-create-branch-action). By default, the branch name will be `preview/<git-branch-name>-<commit_SHA>`
 7. Executes database migrations by setting up the `.env` file and running migration scripts.
 8. Deploys the application with [`superfly/fly-pr-review-apps@1.2.0`](https://github.com/marketplace/actions/github-action-for-deplying-staging-apps-on-fly-io), while including the Neon database URL.
 9. Comments on the pull request with deployment and database branch details using `thollander/actions-comment-pull-request@v2`.
