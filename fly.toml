@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for node-drizzle-neon on 2024-01-31T11:04:51+02:00
+# fly.toml app configuration file generated for preview-branches-with-fly on 2024-02-01T11:54:56+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'node-drizzle-neon'
+app = 'preview-branches-with-fly'
 primary_region = 'cdg'
 
 [build]
