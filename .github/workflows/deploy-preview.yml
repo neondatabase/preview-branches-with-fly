@@ -2,14 +2,14 @@ name: Preview Deployment
 on: [pull_request]
 
 env:
-  NEON_DATABASE_USERNAME: mahmoud+demo # change this to your database username
+  NEON_DATABASE_USERNAME: ${{ secrets.NEON_DATABASE_USERNAME }} # change this to your database username
   GH_TOKEN: ${{ secrets.GH_TOKEN }} # Required for commenting on pull requests for private repos
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }} # You can generate a an API key in your account settings
   NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }} # You can find this in your project settings
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }} # You can generate a Fly API token in your account settings
 
 jobs:
-  preview_app:
+  deploy-preview:
     runs-on: ubuntu-latest
 
     # Only run one deployment at a time per PR.
