@@ -13,7 +13,7 @@ You will then need to set the following secrets in your repository:
 - `NEON_API_KEY`: Your Neon API key, you can find it in your Neon account settings.
 - `FLY_API_TOKEN`: Your Fly.io API token, you can find it in your Fly.io account settings.
 - `DATABASE_URL`: The connection string for your production database. You can find it in your Neon project's connection details.
-- `GH_TOKEN`: A GitHub token with access to your repository, you can create one in your GitHub account settings. You will need to give it access to the `repo` scope so that the `deploy-preview` workflow can comment on the pull request.
+- `GH_TOKEN`: A GitHub token with access to your repository, you can create one in your GitHub account settings. You will need to give it access to the `repo` scope so that the `deploy-preview` workflow can comment on the pull request. You can uncomment the step which uses this token in the `.github/workflows/deploy-preview.yml` workflow file.
 - `NEON_DATABASE_USERNAME`: The username for your Neon database. This is the same as the username for your production database.
 
 
