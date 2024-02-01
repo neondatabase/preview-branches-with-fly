@@ -1,8 +1,6 @@
 name: Preview Deployment
-on:
-  pull_request:
-    types: [opened, reopened, synchronize, closed]
-    
+on: [pull_request]
+
 env:
   NEON_DATABASE_USERNAME: ${{ secrets.NEON_DATABASE_USERNAME }} # change this to your database username
   GH_TOKEN: ${{ secrets.GH_TOKEN }} # Required for commenting on pull requests for private repos
@@ -27,7 +25,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'pnpm'
+          cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
 
@@ -59,7 +57,6 @@ jobs:
         uses: superfly/fly-pr-review-apps@1.2.0
         with:
           secrets: DATABASE_URL=${{ steps.create-branch.outputs.db_url }}?sslmode=require
-          
 
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v2
