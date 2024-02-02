@@ -1,6 +1,6 @@
 # Preview branches with Fly.io and Neon
 
-This is an example project that shows how you can create a branch for every [Fly.io](https://fly.io) preview deployment.
+This is an example project that shows how you can create a [Neon](https://neon.tech) branch for every [Fly.io](https://fly.io) preview deployment.
 
 
 ## Getting started
