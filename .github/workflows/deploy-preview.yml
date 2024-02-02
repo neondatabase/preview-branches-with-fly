@@ -49,7 +49,6 @@ jobs:
 
           echo DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}?sslmode=require >> .env
 
-          pnpm run db:generate
           pnpm run db:migrate
 
       - name: Deploy
