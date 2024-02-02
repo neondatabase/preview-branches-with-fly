@@ -8,6 +8,13 @@
       "when": 1706770281659,
       "tag": "0000_goofy_gabe_jones",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1706863190661,
+      "tag": "0001_yielding_obadiah_stane",
+      "breakpoints": true
     }
   ]
 }
