@@ -1,4 +1,4 @@
-import { serial, text, timestamp, pgTable } from "drizzle-orm/pg-core";
+import { serial, text, timestamp, pgTable, boolean } from "drizzle-orm/pg-core";
 
 export const users = pgTable("user", {
   id: serial("id"),
@@ -8,4 +8,5 @@ export const users = pgTable("user", {
   role: text("role").$type<"admin" | "customer">(),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
+  isSubscribed: boolean("is_subscribed").default(true),
 });
