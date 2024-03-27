@@ -1,8 +1,8 @@
 import "dotenv/config";
 import Fastify from "fastify";
-import { db } from "./db";
-import { users } from "./db/schema";
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 const PORT = Number(process.env.PORT) || 3000;
 
 const fastify = Fastify();

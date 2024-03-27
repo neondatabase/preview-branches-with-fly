@@ -44,7 +44,7 @@ The workflow has a single job called `production-deploy` and it consists of the 
 2. Sets up PNPM using pnpm/action-setup@v2 and specifies version 8. (You can use another package manager depending on your setup.)
 3. Configures the environment to use Node.js version 18 using actions/setup-node@v4, with a cache configured for PNPM.
 4. Installs project dependencies using pnpm install.
-5. Runs database migrations with the command pnpm run db:migrate.
+5. Runs database migrations with the command `prisma migrate deploy`.
 6. Sets up Fly CLI (flyctl) using [superfly/flyctl-actions/setup-flyctl@master](https://github.com/marketplace/actions/github-action-for-flyctl).
 7. Finally, deploys the application using Fly CLI with the command `flyctl deploy --remote-only`.
 

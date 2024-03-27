@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for node-drizzle-neon on 2024-01-31T11:04:51+02:00
+# fly.toml app configuration file generated for node-prisma-neon on 2024-01-31T11:04:51+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'node-drizzle-neon'
+app = 'node-prisma-neon'
 primary_region = 'cdg'
 
 [build]
