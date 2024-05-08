@@ -2,11 +2,9 @@ name: Preview Deployment
 on: [pull_request]
 
 env:
-  NEON_DATABASE_USERNAME: ${{ secrets.NEON_DATABASE_USERNAME }} # change this to your database username
-  GH_TOKEN: ${{ secrets.GH_TOKEN }} # Required for commenting on pull requests for private repos
-  NEON_API_KEY: ${{ secrets.NEON_API_KEY }} # You can generate a an API key in your account settings
-  NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }} # You can find this in your project settings
+  NEON_PROJECT_ID: ${{ var.NEON_PROJECT_ID }} # You can find this in your Neon project settings
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }} # You can generate a Fly API token in your account settings
+  GH_TOKEN: ${{ secrets.GH_TOKEN }} # Required for commenting on pull requests for private repos
 
 jobs:
   deploy-preview:
@@ -21,41 +19,34 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
-      - name: Use Node.js 18
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
 
-      - name: Get branch name
+      - run: pnpm install
+
+      - name: Get git branch name
         id: branch-name
         uses: tj-actions/branch-names@v8
 
-      - name: Create Neon Branch
-        id: create-branch
+      - id: create-branch
         uses: neondatabase/create-branch-action@v4
         with:
           project_id: ${{ env.NEON_PROJECT_ID }}
           # parent: dev # optional (defaults to your primary branch)
           branch_name: preview/pr-${{ github.event.number }}-${{ steps.branch-name.outputs.current_branch }}
-          username: ${{ env.NEON_DATABASE_USERNAME }}
-          api_key: ${{ env.NEON_API_KEY }}
+          api_key: ${{ secrets.NEON_API_KEY }} # Generate a an API key in your Neon account settings
 
-      - name: Run Migrations
-        run: |
-          touch .env
+      - run: |
+          echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}?sslmode=require" >> "$GITHUB_ENV"
 
-          echo DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}?sslmode=require >> .env
+      - run: pnpm run db:migrate
 
-          pnpm run db:migrate
-
-      - name: Deploy
-        id: deploy
+      - id: deploy
         uses: superfly/fly-pr-review-apps@1.2.0
         with:
-          secrets: DATABASE_URL=${{ steps.create-branch.outputs.db_url }}?sslmode=require
+          secrets: DATABASE_URL=$DATABASE_URL
 
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v2
@@ -63,4 +54,4 @@ jobs:
           # GITHUB_TOKEN: ${{ env.GH_TOKEN }} # Required for commenting on pull requests for private repos
           message: |
             Fly Preview URL :balloon: : ${{ steps.deploy.outputs.url }}
-            Neon branch :elephant: : https://console.neon.tech/app/projects/${{ secrets.NEON_PROJECT_ID }}/branches/${{ steps.create-branch.outputs.branch_id }}
+            Neon branch :elephant: : https://console.neon.tech/app/projects/${{ env.NEON_PROJECT_ID }}/branches/${{ steps.create-branch.outputs.branch_id }}
