@@ -36,7 +36,6 @@ jobs:
           project_id: ${{ env.NEON_PROJECT_ID }}
           # parent: dev # optional (defaults to your primary branch)
           branch_name: preview/pr-${{ github.event.number }}-${{ steps.branch-name.outputs.current_branch }}
-          username: ${{ secrets.NEON_DATABASE_USERNAME }} # change to your Neon database username / role
           api_key: ${{ secrets.NEON_API_KEY }} # Generate a an API key in your Neon account settings
 
       - run: |
