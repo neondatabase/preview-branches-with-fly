@@ -79,7 +79,7 @@ In that job it consists of the following steps:
         id: branch-name
         uses: tj-actions/branch-names@v8
 ```
-1. Creates a Neon database branch for the pull request with [`neondatabase/create-branch-action@v5`](https://github.com/marketplace/actions/neon-database-create-branch-action). By default, the branch name will be `preview/<git-branch-name>-<commit_SHA>`
+1. Creates a Neon database branch for the pull request with [`neondatabase/create-branch-action@v5`](https://github.com/marketplace/actions/neon-database-create-branch-action). By default, the branch name will be `preview/<git-branch-name>`
 ```yaml
       - name: Create Neon Branch
         id: create-branch
@@ -87,19 +87,16 @@ In that job it consists of the following steps:
         with:
           project_id: ${{ env.NEON_PROJECT_ID }}
           # parent: dev # optional (defaults to your primary branch)
-          branch_name: preview/pr-${{ github.event.number }}-${{ steps.branch-name.outputs.current_branch }}
+          branch_name: preview/${{ steps.branch-name.outputs.current_branch }}
           username: "neondb_owner" # change this to your Neon database username if you're not using the default
           api_key: ${{ env.NEON_API_KEY }}
 ```
 1. Executes database migrations by setting up the `.env` file and running migration scripts.
 ```
-      - name: Run Migrations
-        run: |
-          touch .env
+      - run: |
+          echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}" >> "$GITHUB_ENV"
 
-          echo DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}?sslmode=require >> .env
-
-          pnpm run db:migrate
+      - run: pnpm run db:migrate
 ```
 1. Deploys the application with [`superfly/fly-pr-review-apps@1.2.1`](https://github.com/marketplace/actions/github-action-for-deplying-staging-apps-on-fly-io), while including the Neon database URL.
 ```yaml
