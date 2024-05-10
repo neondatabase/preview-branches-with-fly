@@ -50,17 +50,17 @@ In that job it consists of the following steps:
       group: pr-${{ github.event.number }}
 ```
 
-1. Check out the codebase using [`actions/checkout@v4`](https://github.com/marketplace/actions/checkout).
+2. Check out the codebase using [`actions/checkout@v4`](https://github.com/marketplace/actions/checkout).
 ```yaml
       - uses: actions/checkout@v4
 ```
-1. Sets up PNPM with [`pnpm/action-setup@v2`](https://github.com/marketplace/actions/setup-pnpm). (You can use another package manager depending on your setup.)
+3. Sets up PNPM with [`pnpm/action-setup@v2`](https://github.com/marketplace/actions/setup-pnpm). (You can use another package manager depending on your setup.)
 ```yaml
       - uses: pnpm/action-setup@v2
         with:
           version: 8
 ```
-1. Configures Node.js version with caching for PNPM via `actions/setup-node@v4`.
+4. Configures Node.js version with caching for PNPM via `actions/setup-node@v4`.
 ```yaml
       - name: Use Node.js 18
         uses: actions/setup-node@v4
@@ -68,18 +68,18 @@ In that job it consists of the following steps:
           node-version: 18
           cache: "pnpm"
 ```
-1. Installs dependencies using `pnpm install`.
+5. Installs dependencies using `pnpm install`.
 ```yaml
       - name: Install dependencies
         run: pnpm install
 ```
-1. Retrieves and normalizes the branch name using [`tj-actions/branch-names@v8`](https://github.com/marketplace/actions/branch-names).
+6. Retrieves and normalizes the branch name using [`tj-actions/branch-names@v8`](https://github.com/marketplace/actions/branch-names).
 ```yaml
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v8
 ```
-1. Creates a Neon database branch for the pull request with [`neondatabase/create-branch-action@v5`](https://github.com/marketplace/actions/neon-database-create-branch-action). By default, the branch name will be `preview/<git-branch-name>`
+7. Creates a Neon database branch for the pull request with [`neondatabase/create-branch-action@v5`](https://github.com/marketplace/actions/neon-database-create-branch-action). By default, the branch name will be `preview/<git-branch-name>`
 ```yaml
       - name: Create Neon Branch
         id: create-branch
@@ -91,14 +91,14 @@ In that job it consists of the following steps:
           username: "neondb_owner" # change this to your Neon database username if you're not using the default
           api_key: ${{ env.NEON_API_KEY }}
 ```
-1. Executes database migrations by setting up the `.env` file and running migration scripts.
+8. Executes database migrations by setting up the `.env` file and running migration scripts.
 ```
       - run: |
           echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}" >> "$GITHUB_ENV"
 
       - run: pnpm run db:migrate
 ```
-1. Deploys the application with [`superfly/fly-pr-review-apps@1.2.1`](https://github.com/marketplace/actions/github-action-for-deplying-staging-apps-on-fly-io), while including the Neon database URL.
+9. Deploys the application with [`superfly/fly-pr-review-apps@1.2.1`](https://github.com/marketplace/actions/github-action-for-deplying-staging-apps-on-fly-io), while including the Neon database URL.
 ```yaml
       - name: Deploy
         id: deploy
@@ -106,7 +106,7 @@ In that job it consists of the following steps:
         with:
           secrets: DATABASE_URL=${{ steps.create-branch.outputs.db_url }}?sslmode=require
 ```
-1.  Comments on the pull request with deployment and database branch details using `thollander/actions-comment-pull-request@v2`. Here's an [example comment](https://github.com/neondatabase/preview-branches-with-fly/pull/9#issuecomment-1924660371)
+10.  Comments on the pull request with deployment and database branch details using `thollander/actions-comment-pull-request@v2`. Here's an [example comment](https://github.com/neondatabase/preview-branches-with-fly/pull/9#issuecomment-1924660371)
 ```yaml
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v2
