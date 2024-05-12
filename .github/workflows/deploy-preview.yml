@@ -1,18 +1,19 @@
 name: Preview Deployment
 on: [pull_request]
 
-env:
-  NEON_PROJECT_ID: ${{ vars.NEON_PROJECT_ID }} # You can find this in your Neon project settings
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }} # You can generate a Fly API token in your account settings
-  GH_TOKEN: ${{ secrets.GH_TOKEN }} # Required for commenting on pull requests for private repos
-
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
 
     # Only run one deployment at a time per PR.
     concurrency:
       group: pr-${{ github.event.number }}
+
+    environment:
+      name: review
+      url: ${{ steps.deploy.outputs.url }}
 
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +34,7 @@ jobs:
       - id: create-branch
         uses: neondatabase/create-branch-action@v5
         with:
-          project_id: ${{ env.NEON_PROJECT_ID }}
+          project_id: ${{ vars.NEON_PROJECT_ID }} # You can find this in your Neon project settings
           username: "neondb_owner" # Change this to the role you use to connect to your database
           # parent: dev # optional (defaults to your primary branch)
           branch_name: preview/${{ steps.branch-name.outputs.current_branch }}
@@ -46,13 +47,7 @@ jobs:
 
       - id: deploy
         uses: superfly/fly-pr-review-apps@1.2.1
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }} # You can generate a Fly API token in your account settings
         with:
-          secrets: DATABASE_URL=$DATABASE_URL
-
-      - name: Comment on Pull Request
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          GITHUB_TOKEN: ${{ env.GH_TOKEN }} # Required for commenting on pull requests for private repos
-          message: |
-            Fly Preview URL :balloon: : ${{ steps.deploy.outputs.url }}
-            Neon branch :elephant: : https://console.neon.tech/app/projects/${{ env.NEON_PROJECT_ID }}/branches/${{ steps.create-branch.outputs.branch_id }}
+          secrets: DATABASE_URL=$DATABASE_URL 
