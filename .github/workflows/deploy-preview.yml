@@ -49,7 +49,7 @@ jobs:
 
           echo DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}?sslmode=require >> .env
 
-          pnpm dlx primsa mirgrate deploy
+          pnpm dlx primsa migrate deploy
 
       - name: Deploy
         id: deploy
