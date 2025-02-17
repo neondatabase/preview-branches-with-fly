@@ -1,4 +1,4 @@
-# Preview branches with Fly.io and Neon
+# Preview branches with Fly.io and Neonhttps://github.com/neondatabase-labs/preview-branches-with-fly/blob/update-the-readme/package.json
 
 This is an example project that shows how you can create a branch for every [Fly.io](https://fly.io) preview deployment.
 
